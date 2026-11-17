@@ -6,7 +6,9 @@
 # 3. the Gradle project in android-ds/ (Kotlin + Compose second screen).
 #
 # Needs ANDROID_NDK, SDL3_ANDROID_DIR (scripts/dev/build-sdl3-android.sh) and
-# ANDROID_HOME / JAVA_HOME for Gradle. Output: dist/lba2ds-<version>.apk
+# ANDROID_HOME / JAVA_HOME for Gradle. LBA2DS_KEYSTORE_PROPERTIES, when set,
+# signs the release with its key (android-ds/app/build.gradle.kts); otherwise
+# the debug key does. Output: dist/lba2ds-<version>.apk
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"

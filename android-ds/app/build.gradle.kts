@@ -6,6 +6,8 @@
 // What Gradle adds is the Kotlin side: the activity that keeps the game on the
 // top screen and the Compose panel on the bottom one.
 
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
@@ -26,6 +28,13 @@ val derivedVersionCode = run {
     major * 10000 + minor * 100 + patch
 }
 val sdlJava = repoRoot.resolve("out/android/SDL3/android-project/app/src/main/java")
+
+// The release key lives outside the repository: LBA2DS_KEYSTORE_PROPERTIES names a
+// properties file with storeFile, storePassword, keyAlias and keyPassword. Without
+// it the release APK is signed with the build machine's debug key, which cannot
+// update an APK signed with the release key.
+val releaseKeyFile = System.getenv("LBA2DS_KEYSTORE_PROPERTIES")?.let { file(it) }?.takeIf { it.exists() }
+val releaseKey = Properties().apply { releaseKeyFile?.inputStream()?.use { load(it) } }
 
 android {
     namespace = "org.lbalab.lba2cc"
@@ -49,11 +58,19 @@ android {
         }
     }
 
+    signingConfigs {
+        if (releaseKeyFile != null) create("release") {
+            storeFile = file(releaseKey.getProperty("storeFile"))
+            storePassword = releaseKey.getProperty("storePassword")
+            keyAlias = releaseKey.getProperty("keyAlias")
+            keyPassword = releaseKey.getProperty("keyPassword")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
-            // Signed with the build machine's debug key until a release key exists.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
         }
     }
 
