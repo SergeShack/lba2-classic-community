@@ -7,6 +7,7 @@
  *══════════════════════════════════════════════════════════════════════════*/
 
 #include "C_EXTERN.H"
+#include "DS_BRIDGE.H"
 
 #include "INPUT.H"
 #include "MENU_INPUT.H"
@@ -403,6 +404,7 @@ void CalculeDebComportement(T_MENU_COMP *ptrmcomp) {
 // si on lache rapidement la touche <CTRL>
 
 void MenuComportement(S32 affone) {
+    DsModalScope dsModal(DS_MODAL_BEHAVIOUR);
     T_OBJET *ptrobj;
     U8 *memoptrfile3d;
     S32 oldindex;

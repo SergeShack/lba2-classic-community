@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
+    <uses-feature android:name="android.hardware.gamepad" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
+    <application android:label="@string/app_name"
+        android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
+        android:allowBackup="true"
+        android:hasCode="true"
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true"
+        android:extractNativeLibs="false">
+
+        <!-- The icon: picks the top screen, starts the game there, and goes. -->
+        <activity android:name=".ds.LauncherActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:taskAffinity="io.github.sergeshack.lba2ds.launcher"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- The game, on the top screen. An SDLActivity underneath. -->
+        <activity android:name=".ds.GameActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|smallestScreenSize|density"
+            android:screenOrientation="sensorLandscape"
+            android:launchMode="singleTask"
+            android:resizeableActivity="true"
+            android:exported="false" />
+
+        <!-- The panel, on the bottom screen. A task of its own, so it can sit on
+             another display without dragging the game's task there. -->
+        <activity android:name=".ds.CompanionActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|smallestScreenSize|density"
+            android:launchMode="singleInstance"
+            android:taskAffinity="io.github.sergeshack.lba2ds.companion"
+            android:excludeFromRecents="true"
+            android:resizeableActivity="true"
+            android:exported="false" />
+    </application>
+</manifest>

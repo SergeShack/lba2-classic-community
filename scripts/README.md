@@ -39,6 +39,7 @@ not maintained tooling.
 | [dev/repo_root.sh](dev/repo_root.sh) | Print the absolute repository root (directory with the top-level `CMakeLists.txt`). | `Makefile` |
 | [dev/check-tooling.sh](dev/check-tooling.sh) | Probe the external tools the repo expects, tier by tier, including the optional SDL2 CMake SDK; non-zero only when the default clone build lacks prerequisites. Reads every version floor from the file that pins it. | `make check-tooling`, [TOOLING.md](../docs/TOOLING.md) |
 | [dev/build-android.sh](dev/build-android.sh) | Build the engine for Android (arm64-v8a default, armeabi-v7a via `--abi`). | manual ([ANDROID.md](../docs/ANDROID.md)) |
+| [dev/build-android-ds.sh](dev/build-android-ds.sh) | Build the dual-screen LBA2-DS APK (engine + Gradle project in `android-ds/`). | manual ([ANDROID_DS.md](../docs/ANDROID_DS.md)) |
 | [dev/build-uwp.sh](dev/build-uwp.sh) | Build the experimental UWP exe (Xbox in Developer Mode) with a digest-pinned llvm-mingw, then check its imports and callback table. | manual, CI ([XBOX_PLAN.md](../docs/plan/XBOX_PLAN.md)) |
 | [dev/package-uwp.sh](dev/package-uwp.sh) | Pack that exe into a signed `.appx` named and versioned from `VERSION.txt`; signs with `UWP_SIGN_CERT`/`UWP_SIGN_KEY` or a throwaway cert. | manual, CI ([XBOX_PLAN.md](../docs/plan/XBOX_PLAN.md)) |
 | [dev/build-switch.sh](dev/build-switch.sh) | Build and package Nintendo Switch homebrew using the digest-pinned devkitPro Docker SDK. | manual, CI ([SWITCH.md](../docs/SWITCH.md)) |

@@ -65,6 +65,12 @@ __attribute__((weak)) void ApplyVirtualKeys(void) {}
 void ApplyHarnessKeys(void);
 __attribute__((weak)) void ApplyHarnessKeys(void) {}
 
+// Weak hook for the second-screen companion (SOURCES/DS_BRIDGE.CPP): taps on
+// the other display become key presses here, on the same terms as the two
+// hooks above.
+void ApplyCompanionKeys(void);
+__attribute__((weak)) void ApplyCompanionKeys(void) {}
+
 /* Session recording (docs/RECORDING.md). Weak so libsys.a
    still links into the host tests, which have no recorder. */
 void Record_PollHook(void);
@@ -96,6 +102,7 @@ void UpdateKeyboardState() {
 
     ApplyVirtualKeys();
     ApplyHarnessKeys();
+    ApplyCompanionKeys();
     /* The session recorder, on the same terms as the two hooks above. */
     Record_PollHook();
 

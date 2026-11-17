@@ -3,6 +3,7 @@
 //
 
 #include "C_EXTERN.H" // include LBA2
+#include "DS_BRIDGE.H"
 #include "DIRECTORIES.H"
 #include "INPUT.H"
 #include "MENU_INPUT.H"
@@ -1003,6 +1004,7 @@ void Holo_RequestCapture(const char *path) {
 }
 
 void HoloGlobe(S32 planet) {
+    DsModalScope dsModal(DS_MODAL_HOLOMAP);
     S32 testnofire = TRUE;
     U32 memotime;
     /* #358: game-clock time of the previous loop iteration, used to time-scale the manual

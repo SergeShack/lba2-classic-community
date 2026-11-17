@@ -1,4 +1,5 @@
 #include "C_EXTERN.H"
+#include "DS_BRIDGE.H"
 
 #include <stdio.h>
 
@@ -256,6 +257,7 @@ void MyGetInput(void) {
 }
 
 void MyGetGameplayInput(void) {
+    DsBridge_NoteGameplay();
     Bindings_SetGameplay(1);
     TouchInput_SetGameplay(!Console_IsOpen());
     PollInput();

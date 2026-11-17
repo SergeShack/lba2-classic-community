@@ -12,6 +12,7 @@
 /*-------------------------------------------------------------------------*/
 
 #include "C_EXTERN.H"
+#include "DS_BRIDGE.H"
 #include "IMAGE_LOAD.H"
 
 #include "CONSOLE/CONSOLE.H"
@@ -2100,6 +2101,7 @@ void Dial_RequestCapture(const char *path) {
 }
 
 void Dial(S32 text, S32 drawscene) {
+    DsDialogScope dsDialog;
     S32 ret = 0;
     S32 flagabort = 0;
 

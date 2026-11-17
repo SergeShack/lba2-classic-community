@@ -1,4 +1,5 @@
 #include "C_EXTERN.H"
+#include "DS_BRIDGE.H"
 
 #include <SYSTEM/INPUT_FLOW.H>
 #include <POLYGON/POLYFILT.H>
@@ -2288,6 +2289,7 @@ static void ControlPrePresent(U32 *frameBuffer, U32 pitch, U32 width, U32 height
     Control_ServiceListen();
     /* Every mode presents, so this is where the mouse's capture is decided. */
     MouseCapture_Update();
+    DsBridge_PrePresent(frameBuffer, pitch, width, height, palette_rgb);
     Console_PrePresent(frameBuffer, pitch, width, height, palette_rgb);
 }
 

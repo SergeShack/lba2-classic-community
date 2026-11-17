@@ -187,6 +187,16 @@ void SetMouseMotion(S32 dx, S32 dy) {
     LibMouseYDep = dy;
 }
 
+void InjectPointer(U32 x, U32 y, S32 down) {
+    SetMousePos(x, y);
+    s_mouseMotionFlag = true;
+    NotePointerSource(true);
+    if (down)
+        Click |= 1;
+    else
+        Click &= ~1;
+}
+
 void HandleEventsMouse(const PlatformEvent *event) {
     assert(event != NULL);
 

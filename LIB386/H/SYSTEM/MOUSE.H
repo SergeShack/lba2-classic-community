@@ -38,6 +38,9 @@ void ShowMouse(bool show);
 /// Like ShowMouse(true), but the software sprite stays off until the next mouse motion (menus).
 void ShowMouseAfterFirstMotion(void);
 void SetMousePos(U32 x, U32 y);
+/// A finger on another display, in surface coordinates: moves the pointer
+/// there and sets or clears the left button, as a touch-made mouse event would.
+void InjectPointer(U32 x, U32 y, S32 down);
 void SetMouseBox(U32 x0, U32 y0, U32 x1, U32 y1); ///< Set mouse position limits
 void ClearMouseBox();                             ///< Reset mouse position limits to screen size
 

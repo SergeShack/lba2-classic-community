@@ -1,4 +1,5 @@
 #include "C_EXTERN.H"
+#include "DS_BRIDGE.H"
 #include "CONSOLE/CONSOLE.H"
 #include "CONTROL.H"
 #include "DIRECTORIES.H"
@@ -1040,6 +1041,7 @@ void Inv_RequestCapture(const char *path) {
 }
 
 void MenuInventory(U32 tempo) {
+    DsModalScope dsModal(DS_MODAL_INVENTORY);
     if (Control_IsVerbose())
         fprintf(stderr, "[control] modal: MenuInventory (tempo=%u, DemoSlide=%d) -- "
                         "blocks the loop until dismissed/auto-advanced\n",
@@ -2254,6 +2256,7 @@ void ResetArdoise(void) {
 #endif // COMPILATOR
 
 void GereArdoise() {
+    DsModalScope dsModal(DS_MODAL_SLATE);
 #ifndef COMPILATOR
     S32 savetimer;
 

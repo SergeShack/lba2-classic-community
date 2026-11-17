@@ -1,4 +1,5 @@
 #include "C_EXTERN.H"
+#include "DS_BRIDGE.H"
 #include "CONFIG.H"
 #include "CONTROL.H" /* Control_KeyHold (AskChoice_RequestDrive) */
 #include "DIRECTORIES.H"
@@ -865,6 +866,7 @@ int my_sort_function(const void *a, const void *b) {
 /*──────────────────────────────────────────────────────────────────────────*/
 
 S32 PlayerGameList(char **ptrlistname, char *listname, S32 flagnew) {
+    DsModalScope dsModal(DS_MODAL_SAVES);
     struct dirent *file;
     DIR *dir;
     S32 wlong;
@@ -2775,6 +2777,7 @@ S32 Menu_MainOptionsCapture(const char *path) {
 }
 
 S32 DoGameMenu(U16 *ptrmenu) {
+    DsModalScope dsModal(DS_MODAL_MENU);
     S32 flag = 1;
     U32 chrono;
     S32 timerkey;
