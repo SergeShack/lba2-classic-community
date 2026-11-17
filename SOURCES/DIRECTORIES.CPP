@@ -666,11 +666,17 @@ bool Directories_PortableProfile(char *outName, U16 outMax) {
    `User/LBA2/` and `Twinsen/LBA2/` all say the same thing. Without it a demo
    build and a retail one would share a save folder here while being kept apart
    everywhere else, and a second game would have nowhere of its own to go. */
-#define ANDROID_USER_DIR_SDCARD "/sdcard/lba2cc/user/" ADELINE_PREF_APP
+#ifndef LBA2_ANDROID_STORAGE_DIR
+#define LBA2_ANDROID_STORAGE_DIR "lba2cc"
+#endif
+/* LBA2_ANDROID_STORAGE_DIR names the shared-storage folder: `lba2cc` for this
+   project's APK, another name for a build that installs beside it with saves
+   of its own (the LBA2-DS build, docs/ANDROID_DS.md). */
+#define ANDROID_USER_DIR_SDCARD "/sdcard/" LBA2_ANDROID_STORAGE_DIR "/user/" ADELINE_PREF_APP
 /* The same folder under the name it carries when /sdcard is not the symlink it
    is on nearly every device. ResolveGameDataDir probes both spellings for the
    game data; writing follows it rather than inventing a second rule. */
-#define ANDROID_USER_DIR_EMULATED "/storage/emulated/0/lba2cc/user/" ADELINE_PREF_APP
+#define ANDROID_USER_DIR_EMULATED "/storage/emulated/0/" LBA2_ANDROID_STORAGE_DIR "/user/" ADELINE_PREF_APP
 
 /* A user directory is a handful of files and two levels of folders. The cap
    stops a tree that somehow links back into itself rather than limiting

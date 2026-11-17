@@ -17,7 +17,9 @@ cd "$REPO_ROOT"
 : "${ANDROID_HOME:?set ANDROID_HOME}"
 
 if [[ "${SKIP_NATIVE:-0}" != 1 ]]; then
-    LBA2_EXTRA_CMAKE_ARGS="-DLBA2_GAMEPAD_DS_LAYOUT=ON" bash scripts/dev/build-android.sh
+    # Its own storage folder, so it installs beside the upstream APK with saves of its own.
+    LBA2_EXTRA_CMAKE_ARGS="-DLBA2_GAMEPAD_DS_LAYOUT=ON -DLBA2_ANDROID_STORAGE_DIR=LBA2-DS" \
+        bash scripts/dev/build-android.sh
 fi
 
 BUILD=out/build/android_arm64

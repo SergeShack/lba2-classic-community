@@ -586,6 +586,20 @@ bool ResolveGameDataDir(char *outDir, U16 outMax, int *argc, char **argv) {
      * may need MANAGE_EXTERNAL_STORAGE permission — see
      * docs/ANDROID.md). Try /sdcard/lba2cc/ first so users can keep data in a
      * subdirectory. Harmless no-op on non-Android. */
+#ifdef LBA2_ANDROID_STORAGE_DIR
+    /* A build with a storage folder of its own looks there first, then in the
+       project's, so data already copied for the other APK serves both. */
+    Res_SetDiscoverySource("/sdcard/" LBA2_ANDROID_STORAGE_DIR);
+    if (TryJoinBaseSub("/sdcard/", LBA2_ANDROID_STORAGE_DIR, outDir, outMax, tried, &triedCount,
+                       true)) {
+        return true;
+    }
+    Res_SetDiscoverySource("/storage/emulated/0/" LBA2_ANDROID_STORAGE_DIR);
+    if (TryJoinBaseSub("/storage/emulated/0/", LBA2_ANDROID_STORAGE_DIR, outDir, outMax, tried,
+                       &triedCount, true)) {
+        return true;
+    }
+#endif
     Res_SetDiscoverySource("/sdcard/lba2cc");
     if (TryJoinBaseSub("/sdcard/", "lba2cc", outDir, outMax, tried, &triedCount,
                        true)) {

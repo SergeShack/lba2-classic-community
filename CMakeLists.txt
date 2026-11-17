@@ -62,6 +62,7 @@ option(LBA2_BUILD_ASM_EQUIV_TESTS "Build ASM↔CPP equivalence tests (requires o
 # a player's build. Idle, it is a flag test per draw call: 2400 headless ticks took the same
 # 4.6 s with it and without on an Apple Silicon Mac.
 option(ENABLE_POLY_RECORDING "Enable polygon call recording for ASM-vs-CPP testing" ${LBA2_BUILD_TESTS})
+set(LBA2_ANDROID_STORAGE_DIR "" CACHE STRING "Android shared-storage folder for game data and saves (empty: lba2cc)")
 option(LBA2_GAMEPAD_STICK_LAYOUT "Default to left-stick movement and east-button dodge (controllers without triggers or stick clicks)" OFF)
 option(LBA2_GAMEPAD_DS_LAYOUT "Dual-screen handheld pad defaults: left stick and D-pad walk and turn, D-pad items unbound (LBA2-DS)" OFF)
 option(LBA2_VITA_DIAGNOSTICS "Capture early Vita boot/stdout/stderr locally and enable optional DEBUGNET" OFF)

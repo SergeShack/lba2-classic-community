@@ -10,7 +10,7 @@ export ANDROID_NDK=... SDL3_ANDROID_DIR=$PWD/out/android/sdl3-install ANDROID_HO
 bash scripts/dev/build-android-ds.sh        # dist/lba2ds-<version>.apk
 ```
 
-The script builds the engine with `scripts/dev/build-android.sh`, stages `liblba2cc.so` (as `libmain.so`), `libSDL3.so` and `libc++_shared.so` into `android-ds/app/src/main/jniLibs`, and runs the Gradle project in `android-ds/`. `SKIP_NATIVE=1` reuses the last engine build. The game data goes to `/sdcard/lba2cc/` as for the upstream APK ([ANDROID.md](ANDROID.md)).
+The script builds the engine with `scripts/dev/build-android.sh`, stages `liblba2cc.so` (as `libmain.so`), `libSDL3.so` and `libc++_shared.so` into `android-ds/app/src/main/jniLibs`, and runs the Gradle project in `android-ds/`. `SKIP_NATIVE=1` reuses the last engine build. It keeps its own shared-storage folder, `/sdcard/LBA2-DS/` (`-DLBA2_ANDROID_STORAGE_DIR=LBA2-DS`): the game data goes there, and saves and settings are in `/sdcard/LBA2-DS/user/LBA2/`. Data already in `/sdcard/lba2cc/` for the upstream APK is found too ([ANDROID.md](ANDROID.md)).
 
 ## How it fits together
 
