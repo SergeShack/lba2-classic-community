@@ -1,231 +1,89 @@
-# Little Big Adventure 2 Classic Community
+# LBA2-DS
 
-Little Big Adventure 2 (aka Twinsen's Odyssey) is the sequel to Little Big Adventure (aka Relentless: Twinsen's Adventure) in 1997.
+![LBA2-DS on the Retroid Pocket Duo Lite: the game on the top screen, the panel on the bottom one](docs/images/lba2-ds-duo-lite.jpg)
 
-This repository is the community fork of the classic source release — a source port maintained with preservation in mind while improving portability and long-term maintainability. Game assets aren't included; you need a legitimate copy of LBA2 to play.
+A fork of **[LBA2 Classic Community](https://github.com/LBALab/lba2-classic-community)** for the **Retroid Pocket Duo
+Lite**. Little Big Adventure 2 (Twinsen's Odyssey) plays on the top screen, and the bottom screen holds a panel for the
+hero, the game's own menus and the inventory, and a touch pad for the holomap.
 
-## Features
+All credit for the engine port goes to the LBA2 Classic Community project and, before it, to Adeline Software and 2.21.
 
-- **The complete game** — the original 1997 engine, ported to 64-bit and modern compilers; bring your own copy of LBA2
-- **Native builds** — Linux, macOS, Windows, Android / Android TV (7.0+, API 24), and experimental Nintendo Switch homebrew
-- **Widescreen and HD** — render resolutions up to 1080p, offered per monitor from the Display menu; the classic 640×480 4:3 mode is still there ([docs/RUNTIME_RESOLUTION.md](docs/RUNTIME_RESOLUTION.md))
-- **Reads disc images directly** — retail assets straight out of a raw ISO/BIN or `.cue` pair, so a GOG Original Edition install or a CD rip needs no extraction step
-- **Retail-compatible saves** — 1997 saves load directly, and every build of this port writes the same 32-bit save bytes
-- **Frame-rate-independent movement** — a fixed 60 Hz simulation step, so walk and jump distances no longer change with your frame rate
-- **Gamepad support** — full controller mapping, radial deadzones, and a rebindable D-pad ([docs/CONTROLLER.md](docs/CONTROLLER.md))
-- **Third-person camera** — optional follow camera in exterior scenes, orbited with the mouse or the right stick, and zoomed with the mouse wheel or the numpad ([docs/CAMERA.md](docs/CAMERA.md))
-- **Render smoothing** — optional texture filtering and dithered shading for the software rasterizer, off by default ([docs/GFX_OPTIONS.md](docs/GFX_OPTIONS.md))
-- **Modern audio backend** — SDL3 in place of the original Miles Sound System
-- **FMV playback** — via the bundled open-source libsmacker
-- **Debug console** — always-on Quake-style console ([docs/CONSOLE.md](docs/CONSOLE.md))
+This fork keeps the community engine as it is and adds the second screen, touch and controls for the Duo Lite.
 
-For a history of project changes, please see the [CHANGELOG.md](CHANGELOG.md).
+---
+## Install
 
-## About this repository
+1. Download `lba2ds-X.Y.Z.apk` from the [latest release](https://github.com/SergeShack/lba2-classic-community/releases/latest)
+   and install it. It is its own app, **LBA2-DS**, and installs next to the upstream Android build without touching its
+   files.
+2. Copy your game data to **`/sdcard/LBA2-DS/`**: the contents of the `Common` folder of the GOG or Steam *Twinsen's
+   Little Big Adventure 2 Classic* install (`LBA2.HQR`, `RESS.HQR`, ..., with the `VIDEO` and `VOX` folders). Data
+   already in `/sdcard/lba2cc/` for the upstream build is found as well. You need your own copy of LBA2; nothing of the
+   game is in this repository or in the APK.
+3. On first start, allow **All files access** when the game asks for it.
 
-The original LBA2 engine source is the [`lba2-classic`](https://github.com/2point21/lba2-classic) codebase: it is mostly assembly, with C++ for game logic, and is the canonical historical release. `lba2-classic-community` is a community fork for evolving and modernizing the code: ports of assembly to C++, SDL3 for graphics/audio/input, libsmacker for FMV, native Linux/macOS/Windows/Android builds, and player-facing additions such as widescreen support, gamepad play, and an always-on debug console. The goal is to preserve the history and culture of the original while making the codebase easier to build and extend. See [ASM_TO_CPP_REFERENCE.md](docs/ASM_TO_CPP_REFERENCE.md) for which modules have been ported from ASM to C++ in this fork.
+An update installs over the previous version and keeps your saves. Saves and settings are in
+`/sdcard/LBA2-DS/user/LBA2/`.
 
-## Why this project
+---
+## What is different from LBA2 Classic Community
 
-We want this to be the way to play LBA2 today, made with the same love and care Adeline put into the original.
+### Two screens
+- The game always opens on the top screen, also when started from a launcher on the bottom screen.
+- The bottom screen shows a panel: life and magic, money (kashes or zlitos, for the planet you are on), keys and clover
+  boxes, the four behaviours, the seven weapons and the quick items (holomap, penguin, protection, lightning). A tap
+  switches behaviour or weapon or uses the item at once, by pressing the same key the game already has for it, so no
+  game rule changes.
+- The panel is drawn in the game's own look: its menu frames, its font, its HUD sprites and the 3D models of the items,
+  all rendered by the engine from your game data when it runs.
+- A bar under the panel says what the console's buttons do right now: it follows the behaviour (jump, fight, hide), the
+  weapon, and the screen that is open, including dialogues (any button: next page, Start: skip).
+- The game's menus, saved games, inventory, behaviour menu and slate open on the bottom screen while the top
+  screen holds the last frame of play.
 
-Care here starts with the 1997 game as the reference. When the port drifts from the original DOS release without meaning to, that is a bug, and we check the original rather than guess. Where the original has a bug of its own, fixing it is the player's choice (Options → Advanced options → Fix retail bugs), not a silent change. What we learn about the engine goes into [docs/knowledge/](docs/knowledge/index.md) with the evidence behind it, so nobody has to find it out twice.
+### Touch
+- Menus: tap an entry to choose it.
+- Holomap: it stays on the top screen; drag on the bottom screen to turn the globe, pinch to zoom out and back.
+- Inventory, behaviour menu, slate: swipe to move, tap for the action.
+- The upstream on-screen gamepad is off: the Duo Lite has its own buttons.
 
-## Playing
+### Controls
+- Walk and turn with the left stick or the D-pad. The triggers are free, as they sit far from the grip on the Duo Lite.
+- The behaviour's action (jump, fight, hide) is on the bottom face button (B on the Duo Lite), talk and search on the
+  left one (Y).
+- Tapping the bottom screen does not take the controller away from the game.
 
-Pre-built binaries for Linux, macOS, Windows and Android, plus an experimental Nintendo Switch homebrew build in the rolling pre-release.
+These are the defaults of this build. A `lba2.cfg` that already lists its gamepad buttons keeps them; reset them in the
+game's controls menu to get these.
 
-**Stable** — [the latest tagged release](https://github.com/LBALab/lba2-classic-community/releases/latest). A milestone build with less churn than rolling. Pre-1.0 — bugs are still being ironed out, and full-playthrough testing isn't part of the release criteria yet (see the [1.0 bar](docs/RELEASING.md) for what changes at 1.0).
+---
+## Building
 
-**Bleeding edge** — [the rolling `latest` pre-release](https://github.com/LBALab/lba2-classic-community/releases/tag/latest). Rebuilt from `main` on every push, may contain unreleased changes, and sometimes carries artifacts not yet in the latest stable tag (newly added platforms land here first). Useful for verifying a fix landed or chasing the freshest feature; not play-tested.
-
-All releases: [Releases page](https://github.com/LBALab/lba2-classic-community/releases).
-
-### Game data
-
-You need a legitimate copy of LBA2 ([GOG](https://www.gog.com/game/little_big_adventure_2), [Steam](https://store.steampowered.com/app/398000/Little_Big_Adventure_2/), or your retail CD) — the engine doesn't ship assets.
-
-On desktop, a folder picker opens on first launch; point it at the directory containing `LBA2.HQR` (alongside `music/`, `video/`, `vox/`, …, or under a `Common/` / `CommonClassic/` subfolder for Steam/GOG re-releases). Your choice is remembered.
-
-To skip the picker, pass an explicit path:
+The APKs on the releases page are built this way. The engine is built as in the upstream project
+([docs/ANDROID.md](docs/ANDROID.md)); the second screen is a Gradle project in `android-ds/` (Kotlin, Jetpack Compose).
 
 ```bash
-./lba2cc --game-dir /path/to/game
-LBA2_GAME_DIR=/path/to/game ./lba2cc
+bash scripts/dev/build-sdl3-android.sh      # once
+export ANDROID_NDK=<NDK r28 or later> SDL3_ANDROID_DIR=$PWD/out/android/sdl3-install
+export ANDROID_HOME=<Android SDK> JAVA_HOME=<JDK 17 or later>
+bash scripts/dev/build-android-ds.sh        # dist/lba2ds-<version>.apk
 ```
 
-To re-pick later: `./lba2cc --pick-game-dir`. See [docs/GAME_DATA.md](docs/GAME_DATA.md) for the full discovery order and override precedence.
+How the two screens work together, and how to test the panel from adb: [docs/ANDROID_DS.md](docs/ANDROID_DS.md).
 
-### Linux
+---
+## Credits
 
-Grab `lba2cc-<version>-anylinux-<arch>.AppImage`, then:
+- **[LBA2 Classic Community](https://github.com/LBALab/lba2-classic-community)** (LBALab): the engine port this fork is
+  based on. Its own README, with the full feature list and the desktop builds, is
+  [here](https://github.com/LBALab/lba2-classic-community#readme).
+- **[lba2-classic](https://github.com/2point21/lba2-classic)** (2.21): the original 1997 source release.
+- **Little Big Adventure 2**, developed by Adeline Software International. The intellectual property is owned by 2.21.
+  Buy the game on [GOG](https://www.gog.com/game/little_big_adventure_2) or
+  [Steam](https://store.steampowered.com/app/398000/Little_Big_Adventure_2/).
+- **[SDL3](https://www.libsdl.org/)** (zlib License) and **libsmacker** (LGPL 2.1).
+- The two-screen handling (which screen the game goes on, the bottom-screen activity and its controller focus) follows
+  **[OpenMW-DS Duo Lite](https://github.com/SergeShack/OpenMW-DS/tree/duo-lite)**.
 
-```bash
-chmod +x lba2cc-*-anylinux-*.AppImage
-./lba2cc-*-anylinux-*.AppImage
-```
-
-> On distros without FUSE, or for packagers wrapping the binary, a static `lba2cc-<version>-linux-<arch>.tar.gz` is published alongside the AppImage — extract and run `lba2cc`.
-
-### macOS
-
-Download `lba2cc-<version>-macos-universal.dmg` (one app for Apple Silicon and Intel Macs, built for macOS 11 or later; tested on Apple Silicon with a current macOS, while Intel Macs and older macOS versions are untested), open it, drag `LBA2 Classic Community.app` to Applications. First launch needs right-click → **Open** (macOS Gatekeeper blocks unsigned apps on double-click). The DMG ships its own README covering this — read it before the first launch.
-
-### Windows
-
-Download `lba2cc-<version>-windows-x64.zip`, unzip anywhere, run `lba2cc.exe`. Portable build: no installer, no DLLs needed.
-
-### Android
-
-Download the `lba2cc-<version>-android-arm64-v8a.apk` (or `armeabi-v7a`). Requires **Android 7.0 (API 24)** or later. You must provide your own retail game data (see [Game data](#game-data) and [docs/ANDROID.md](docs/ANDROID.md) for setup).
-
-### Nintendo Switch
-
-Experimental homebrew build: download `lba2cc-switch.zip` from the [rolling pre-release](https://github.com/LBALab/lba2-classic-community/releases/tag/latest) and extract it onto the SD-card root. The executable lands at `sdmc:/switch/lba2cc/lba2cc.nro`.
-
-Copy your retail HQR files, including `LBA2.HQR`, directly into `sdmc:/lba2/`, preserving the installation's music, movie and voice subdirectories. No game assets are included. Launch through Homebrew Menu in application mode/title takeover, not the memory-constrained Album applet.
-
-Saves, settings and logs live under `sdmc:/switch/lba2cc/user/`; back up this directory before upgrading. See [docs/SWITCH.md](docs/SWITCH.md) for the SD-card layout, network launching and the hardware checklist.
-
-### Xbox
-
-Experimental build for an Xbox One or Series X|S in Developer Mode: download `lba2cc-<version>-xbox-x64.appx` from the [rolling pre-release](https://github.com/LBALab/lba2-classic-community/releases/tag/latest), install it from a web browser through the console's Device Portal, and upload your game files the same way. No game assets are included. [docs/XBOX.md](docs/XBOX.md) walks through it, from Developer Mode on.
-
-## Building from source quick start
-
-### Prerequisites
-
-- CMake 3.23+
-- Ninja (for `make build` and presets)
-- A C/C++ compiler with C++98 support (GCC, Clang)
-- SDL3 (shared library)
-- GNU Make — only required for the `make` shortcuts; plain CMake works without it
-- Optional: UASM — only required for `ENABLE_ASM=ON` workflows
-
-On macOS, install with `brew install ninja sdl3`.
-
-Run `./scripts/dev/check-tooling.sh` to see what your machine is missing. That covers the build; the tools needed for testing, linting, packaging, Android, and releasing are indexed by tier in [docs/TOOLING.md](docs/TOOLING.md).
-
-### First clone
-
-1. `make` or `make help` — lists convenience targets (`build`, `run`, `clean`, `test`, …).
-2. `make build` — configures `build/` (Ninja, Debug) and compiles `lba2cc`. Or plain CMake: `cmake -B build && cmake --build build`.
-3. Point the engine at your game data — `export LBA2_GAME_DIR=/path`, `./data/` (gitignored), `--game-dir`, or bounded automatic discovery (the `LBA2.HQR` marker is the only special-cased file). See [docs/GAME_DATA.md](docs/GAME_DATA.md).
-4. `make run` or `./scripts/dev/build-and-run.sh` — build if needed, then run. `make run` sets `LBA2_GAME_DIR` automatically if `./data` or `../LBA2` contains `LBA2.HQR`; otherwise pass `--game-dir /path/to/classic/install` to the binary.
-5. `make test` — host-only tests (path resolution, parsers, ABI bounds, version checks); no retail files or Docker required.
-
-**Windows:** Use MSYS2 (recommended; see [docs/WINDOWS.md](docs/WINDOWS.md)). Discovery and the game work the same (`LBA2_GAME_DIR`, `--game-dir`, paths with `\` or `/`). The root `Makefile` and `scripts/dev/*.sh` need a Unix-like shell (MSYS2 UCRT64, Git Bash, or WSL); alternatively run `cmake` and `build/SOURCES/lba2cc.exe` from cmd.exe / PowerShell and set the env var with `set LBA2_GAME_DIR=...`.
-
-## CMake presets
-
-For platform-specific builds, use the presets in `CMakePresets.json` (all use the `Ninja` generator, so `ninja` must be on `PATH`):
-
-- **Linux:** `cmake --preset linux && cmake --build --preset linux`
-- **macOS:** `cmake --preset macos_arm64 && cmake --build --preset macos_arm64` (or `macos_x86_64`, or `macos_universal` for both in one binary)
-- **Windows:** `cmake --preset windows_ucrt64 && cmake --build --preset windows_ucrt64` — see [docs/WINDOWS.md](docs/WINDOWS.md)
-- **Cross-compile Windows from Linux:** `cmake --preset cross_linux2win && cmake --build --preset cross_linux2win`. To skip the preset, use the toolchain file directly: `cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/mingw-w64-i686.cmake`.
-- **Nintendo Switch homebrew:** `bash scripts/dev/build-switch.sh` — builds an SDL2 `.nro` and SD-card ZIP inside a digest-pinned devkitPro Docker image. No host SDK needed. Tested on a Switch console against the hardware checklist in [docs/SWITCH.md](docs/SWITCH.md).
-- **PlayStation Vita homebrew:** `bash scripts/dev/build-vita.sh` — builds an SDL2/GXM VPK using the pinned VitaSDK Docker environment. Includes FTP/companion deployment and optional early-boot/DEBUGNET diagnostics. Basic boot is confirmed on hardware; broader acceptance checks remain pending. See [docs/VITA.md](docs/VITA.md).
-
-## Build options
-
-| Option | Values | Default | Description |
-|--------|--------|---------|-------------|
-| `PLATFORM_BACKEND` | `sdl3`, `sdl2`, `null`, `uwp` | `sdl3` | Window, presentation, input, clocks and host services. SDL3 is the default; SDL2 supports desktop and Switch homebrew with audio, but no native folder picker. Android requires SDL3. `null` presents offscreen without an SDK and requires `SOUND_BACKEND=null`. `uwp` (experimental) builds an app for an Xbox in Developer Mode with `cmake/llvm-mingw-x86_64-uwp.cmake`, and takes `SOUND_BACKEND=xaudio2` or `null`; see [docs/plan/XBOX_PLAN.md](docs/plan/XBOX_PLAN.md). See [docs/PLATFORM_ABSTRACTION.md](docs/PLATFORM_ABSTRACTION.md). |
-| `SOUND_BACKEND` | `null`, `miles`, `sdl`, `xaudio2` | `sdl` | Sound backend. `sdl` uses the selected SDL2/SDL3 platform's SDK. `xaudio2` is the same sound code over XAudio2, for `PLATFORM_BACKEND=uwp`. `miles` requires the proprietary Miles Sound System SDK. See [docs/AUDIO.md](docs/AUDIO.md). |
-| `MVIDEO_BACKEND` | `null`, `smacker` | `smacker` | Motion video backend. Use `smacker` for FMV playback via the bundled open-source libsmacker. |
-| `DEBUG_TOOLS` | `ON`, `OFF` | `OFF` | Enable original Adeline developer debug tools: overlay, FPS counter, screenshots, collision visualization, benchmarks, cheat codes, bug save/load, command-line scene selection. See [docs/DEBUG.md](docs/DEBUG.md). |
-| `LBA2_BUILD_TESTS` | `ON`, `OFF` | `OFF` | Build CTest targets (ASM equivalence + host tests such as `test_res_discovery`). |
-| `LBA2_BUILD_ASM_EQUIV_TESTS` | `ON`, `OFF` | `ON` | ASM↔CPP equivalence suite (needs `objcopy`). Set `OFF` for host-only tests (e.g. macOS CI, `make test`). |
-
-Minimal build (no audio/video): `-DSOUND_BACKEND=null -DMVIDEO_BACKEND=null`. When `MVIDEO_BACKEND=smacker`, video audio routes through the active sound backend (SDL: real audio; NULL/MILES: silent). See `LIB386/SMACKER/README.md` and `LIB386/AIL/MILES/README.md` for details on the proprietary SDKs and their open-source replacements.
-
-## Debug console
-
-This source port includes a Quake-style drop-down debug console. It is always available (no build flag), designed to be minimally invasive — normal gameplay is unchanged unless you open and use it. See [docs/CONSOLE.md](docs/CONSOLE.md) for commands, usage, and integration details.
-
-## Project structure
-
-```text
-lba2-classic-community/
-├── CMakeLists.txt            # Root build configuration
-├── CMakePresets.json         # Cross-platform preset builds (linux/macos/windows/...)
-├── Makefile                  # Convenience targets (build/run/test/format)
-├── cmake/                    # Toolchains and CMake helpers
-├── scripts/                  # Dev and CI helper scripts
-├── SOURCES/                  # Main game logic and app entrypoints
-│   ├── CONSOLE/              # Always-on debug console module (core + state)
-│   ├── 3DEXT/                # 3D extensions (terrain, sky, rain, decor)
-│   ├── CONFIG/               # Input/config UI and bindings
-│   └── *.CPP, *.H, *.ASM     # Gameplay systems (AI, physics, save/load, etc.)
-├── LIB386/                   # Engine libraries
-│   ├── 3D/                   # Projection, rotation, matrices
-│   ├── AIL/                  # Audio abstraction (SDL/Miles/null)
-│   ├── ANIM/                 # Animation system
-│   ├── OBJECT/               # 3D object rendering
-│   ├── pol_work/             # Polygon fillers/rasterization
-│   ├── SVGA/                 # Text/sprite/dirty-box rendering paths
-│   ├── SYSTEM/               # Platform/system/input/timer abstractions
-│   ├── H/                    # Shared legacy headers/types
-│   └── libsmacker/           # Open-source Smacker decoder (LGPL 2.1)
-├── tests/                    # Host tests + ASM↔CPP equivalence test wiring
-├── docs/                     # Project documentation index and subsystem docs
-└── run_tests_docker.sh       # Docker wrapper for ASM↔CPP test workflows
-```
-
-## Documentation
-
-**Engine reference** (terms, lifecycles, scene index): [GLOSSARY](docs/GLOSSARY.md), [LIFECYCLES](docs/LIFECYCLES.md), [SCENES](docs/SCENES.md).
-
-Build, debug, preservation, and porting docs are in [docs/](docs/README.md).
-
-## Preservation notes
-
-This codebase is a window into 1990s game development at Adeline Software International in Lyon, France. Beyond the technical content, the source files contain original developer artifacts worth exploring. The ASCII art and French comments documented below are from the original Adeline / lba2-classic codebase (same files or content preserved when porting ASM to C++ in this fork).
-
-- **ASCII art banners** -- The developers decorated their source files with elaborate text banners in two distinct styles. See [ASCII_ART.md](docs/ASCII_ART.md) for a full catalog.
-- **French comments** -- The code is written with French comments throughout, many of which are informal, humorous, or expressive in ways that reflect the personality of the team. See [FRENCH_COMMENTS.md](docs/FRENCH_COMMENTS.md) for a curated selection with English translations.
-
-## License
-
-This source code is licensed under the [GNU General Public License](https://github.com/LBALab/lba2-classic-community/blob/main/LICENSE).
-
-Please note this license only applies to **Little Big Adventure 2** engine source code. **Little Big Adventure 2** game assets (art, models, textures, audio, etc.) are not open-source and therefore aren't redistributable.
-
-## How can I contribute?
-
-Read our [Contribution Guidelines](https://github.com/LBALab/lba2-classic-community/blob/main/CONTRIBUTING.md) and the [Code Style](https://github.com/LBALab/lba2-classic-community/blob/main/CODESTYLE.md) reference.
-
-Use whatever tools help you, AI assistants included. What makes a change good is not who or what typed it, but whether someone cared enough to play it, check it against the original and explain why it is right.
-
-## Links
-
-* **Official Website:** https://twinsenslittlebigadventure.com/
-* **Discord:** https://discord.gg/jsTPWYXHsh
-* **Docs:** https://lba-classic-doc.readthedocs.io/
-
-## Buy the game
-
-* [GOG](https://www.gog.com/game/little_big_adventure_2)  
-* [Steam](https://store.steampowered.com/app/398000/Little_Big_Adventure_2/)
-
-## Original development team
-
-* **Direction:** Frédérick Raynal
-* **Programmers:** Sébastien Viannay / Laurent Salmeron / Cédric Bermond / Frantz Cournil / Marc Bureau du Colombier
-* **3D Artists & Animations:** Paul-Henri Michaud / Arnaud Lhomme
-* **Artists:** Yaeël Barroz, Sabine Morlat, Didier Quentin
-* **Story & Design:** Frédérick Raynal / Didier Chanfray / Yaël Barroz / Laurent Salmeron / Marc Albinet
-* **Dialogs:** Marc Albinet
-* **Story coding:** Frantz Cournil / Lionel Chaze / Pascal Dubois
-* **Video Sequences:** Frédéric Taquet / Benoît Boucher / Ludovic Rubin / Merlin Pardot
-* **Music & Sound FX:** Philippe Vachey
-* **Testing:** Bruno Marion / Thomas Ferraz / Alexis Madinier / Christopher Horwood / Bertrand Fillardet
-* **Quality Control:** Emmanuel Oualid
-
-Use the `credits` command in the [console](docs/CONSOLE.md) to see the full original credits.
-
-## Copyright
-
-The intellectual property is currently owned by [2.21]. Copyright [2.21]
-Originally developed by Adeline Software International in 1994
+The engine source is licensed under the GNU General Public License, see [LICENSE](LICENSE). It covers the code only:
+the game's assets are not open source and are not redistributable.
