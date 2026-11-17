@@ -63,6 +63,7 @@ option(LBA2_BUILD_ASM_EQUIV_TESTS "Build ASM↔CPP equivalence tests (requires o
 # 4.6 s with it and without on an Apple Silicon Mac.
 option(ENABLE_POLY_RECORDING "Enable polygon call recording for ASM-vs-CPP testing" ${LBA2_BUILD_TESTS})
 option(LBA2_GAMEPAD_STICK_LAYOUT "Default to left-stick movement and east-button dodge (controllers without triggers or stick clicks)" OFF)
+option(LBA2_GAMEPAD_DS_LAYOUT "Dual-screen handheld pad defaults: left stick and D-pad walk and turn, D-pad items unbound (LBA2-DS)" OFF)
 option(LBA2_VITA_DIAGNOSTICS "Capture early Vita boot/stdout/stderr locally and enable optional DEBUGNET" OFF)
 if(LBA2_VITA_DIAGNOSTICS AND NOT VITA)
     message(FATAL_ERROR "LBA2_VITA_DIAGNOSTICS requires the Vita toolchain.")

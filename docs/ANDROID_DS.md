@@ -39,6 +39,10 @@ The panel is drawn in the game's own hand: the menus' cyan frames over darkened 
 
 A bar at the bottom names what the pad's buttons do right now: in play it follows the behaviour (the action button is Jump in Sporty, Fight in Aggressive, Hide in Discreet; the hints read the live bindings) and the weapon on R1; in a menu, the holomap, the inventory, the behaviour menu or the slate it names that screen's buttons, and during a dialogue (which stays on the top screen) it says any button turns the page and Start skips it.
 
+## Pad layout
+
+`build-android-ds.sh` configures the engine with `-DLBA2_GAMEPAD_DS_LAYOUT=ON`: the left stick and the D-pad both walk (up/down) and turn (left/right), and the D-pad's quick items (penguin, jetpack, protection, lightning) are left unbound, since the panel has them. The behaviour's action (jump, fight, hide) moves to the bottom face button and talk/search to the left one. The triggers are free. These are compiled defaults: a `lba2.cfg` that already names its gamepad bindings keeps them until they are reset in the controls menu or edited (`Gamepad0`..`Gamepad3` and their `_2` keys, `Gamepad7`, `Gamepad8`, `Gamepad32`..`Gamepad35`). The button hints read the live bindings, so they stay right either way..
+
 ## Testing from adb
 
 The game accepts one bridge command per broadcast from the adb shell (guarded by the `DUMP` permission, which apps cannot hold):

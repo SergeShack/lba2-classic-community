@@ -67,7 +67,8 @@ cmake -S "${REPO_DIR}" -B "${BUILD_DIR}" \
     -DSDL3_DIR="${SDL3_ANDROID_DIR}/lib/cmake/SDL3" \
     -DSOUND_BACKEND=sdl \
     -DMVIDEO_BACKEND=smacker \
-    -DCMAKE_SHARED_LINKER_FLAGS="-Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384"
+    -DCMAKE_SHARED_LINKER_FLAGS="-Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384" \
+    ${LBA2_EXTRA_CMAKE_ARGS:-}
 
 # ---- Step 2: Build native library ----------------------------------------
 cmake --build "${BUILD_DIR}" -- -j"$(nproc)"

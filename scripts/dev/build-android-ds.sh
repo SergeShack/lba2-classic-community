@@ -17,7 +17,7 @@ cd "$REPO_ROOT"
 : "${ANDROID_HOME:?set ANDROID_HOME}"
 
 if [[ "${SKIP_NATIVE:-0}" != 1 ]]; then
-    bash scripts/dev/build-android.sh
+    LBA2_EXTRA_CMAKE_ARGS="-DLBA2_GAMEPAD_DS_LAYOUT=ON" bash scripts/dev/build-android.sh
 fi
 
 BUILD=out/build/android_arm64

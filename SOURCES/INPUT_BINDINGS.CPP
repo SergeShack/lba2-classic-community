@@ -69,20 +69,37 @@ static U32 CombinedInputMasks[INPUT_TABLE_SLOTS * 4];
 T_DEF_KEY GamepadKeys[MAX_INPUT_SLOTS];
 
 const T_DEF_KEY GamepadKeysDefault[MAX_INPUT_SLOTS] = {
-#ifdef LBA2_GAMEPAD_STICK_LAYOUT
+#if defined(LBA2_GAMEPAD_DS_LAYOUT)
+    /* Dual-screen handheld (docs/ANDROID_DS.md): the left stick and the D-pad
+       both walk and turn, and the quick items the D-pad held are on the
+       second screen's panel instead. */
+    {K_GAMEPAD_LSTICK_UP, K_GAMEPAD_DPAD_UP},       // 0  I_UP
+    {K_GAMEPAD_LSTICK_DOWN, K_GAMEPAD_DPAD_DOWN},   // 1  I_DOWN
+    {K_GAMEPAD_LSTICK_LEFT, K_GAMEPAD_DPAD_LEFT},   // 2  I_LEFT
+    {K_GAMEPAD_LSTICK_RIGHT, K_GAMEPAD_DPAD_RIGHT}, // 3  I_RIGHT
+#elif defined(LBA2_GAMEPAD_STICK_LAYOUT)
     {K_GAMEPAD_LSTICK_UP, 0},   // 0  I_UP
     {K_GAMEPAD_LSTICK_DOWN, 0}, // 1  I_DOWN
 #else
     {K_GAMEPAD_RTRIGGER, 0}, // 0  I_UP
     {K_GAMEPAD_LTRIGGER, 0}, // 1  I_DOWN
 #endif
+#if !defined(LBA2_GAMEPAD_DS_LAYOUT)
     {K_GAMEPAD_LSTICK_LEFT, 0},  // 2  I_LEFT
     {K_GAMEPAD_LSTICK_RIGHT, 0}, // 3  I_RIGHT
+#endif
     {K_GAMEPAD_RSHOULDER, 0},    // 4  I_THROW
     {K_GAMEPAD_LSHOULDER, 0},    // 5  I_COMPORTEMENT
     {K_GAMEPAD_Y, 0},            // 6  I_INVENTORY
+#if defined(LBA2_GAMEPAD_DS_LAYOUT)
+    /* The behaviour's action (jump, fight, hide) on the bottom face button,
+       under the thumb; talk and search on the left one. */
+    {K_GAMEPAD_A, 0}, // 7  I_ACTION_M
+    {K_GAMEPAD_X, 0}, // 8  I_ACTION_ALWAYS
+#else
     {K_GAMEPAD_X, 0},            // 7  I_ACTION_M
     {K_GAMEPAD_A, 0},            // 8  I_ACTION_ALWAYS
+#endif
 #ifdef LBA2_GAMEPAD_STICK_LAYOUT
     {0, 0}, // 9  I_RETURN (front-screen tap)
 #else
@@ -114,15 +131,35 @@ const T_DEF_KEY GamepadKeysDefault[MAX_INPUT_SLOTS] = {
     {0, 0},                                          // 29
     {0, 0},                                          // 30
     {0, 0},                                          // 31
+#if defined(LBA2_GAMEPAD_DS_LAYOUT)
+    {0, 0}, // 32 I_PINGOUIN
+    {0, 0}, // 33 I_JETPACK
+    {0, 0}, // 34 I_PROTECTION
+    {0, 0}, // 35 I_FOUDRE
+#else
     {K_GAMEPAD_DPAD_RIGHT, 0},                       // 32 I_PINGOUIN
     {K_GAMEPAD_DPAD_DOWN, 0},                        // 33 I_JETPACK
     {K_GAMEPAD_DPAD_UP, 0},                          // 34 I_PROTECTION
     {K_GAMEPAD_DPAD_LEFT, 0},                        // 35 I_FOUDRE
+#endif
 };
 
 U32 NbInput = MAX_INPUT_SLOTS;
 
-#ifdef LBA2_GAMEPAD_STICK_LAYOUT
+/* The modal remap: one pad button that is a gameplay action and, in a modal
+   poll, the Return action instead. Circle's dodge on the handheld layout; on
+   the dual-screen layout the bottom face button, whose behaviour action
+   (jump, fight, hide) becomes Return in menus and the inventory, where that
+   button is the one under the thumb. */
+#if defined(LBA2_GAMEPAD_DS_LAYOUT)
+#define MODAL_REMAP_SLOT 7
+#define MODAL_REMAP_KEY K_GAMEPAD_A
+#else
+#define MODAL_REMAP_SLOT 13
+#define MODAL_REMAP_KEY K_GAMEPAD_B
+#endif
+
+#if defined(LBA2_GAMEPAD_STICK_LAYOUT) || defined(LBA2_GAMEPAD_DS_LAYOUT)
 static S32 s_modalCircle = 1;
 #else
 static S32 s_modalCircle = 0;
@@ -161,9 +198,9 @@ void InitInput(void) {
         CombinedInputKeys[n] = GamepadKeys[i].Key2;
         CombinedInputMasks[n++] = mask;
         /* An action remap must not turn a held modal press into a new action. */
-        if (s_modalCircle && i == 13) {
+        if (s_modalCircle && i == MODAL_REMAP_SLOT) {
             for (S32 key = n - 2; key < n; ++key)
-                if (CombinedInputKeys[key] == K_GAMEPAD_B) {
+                if (CombinedInputKeys[key] == MODAL_REMAP_KEY) {
                     if (s_circleSuppressed)
                         CombinedInputMasks[key] = 0;
                     else if (!s_gameplay)
@@ -182,7 +219,7 @@ void Bindings_SetGameplay(S32 gameplay) {
         return;
     gameplay = gameplay != 0;
     S32 suppressed = s_circleSuppressed;
-    if (!CheckKey(K_GAMEPAD_B))
+    if (!CheckKey(MODAL_REMAP_KEY))
         suppressed = 0;
     else if (s_gameplay != gameplay)
         suppressed = 1;

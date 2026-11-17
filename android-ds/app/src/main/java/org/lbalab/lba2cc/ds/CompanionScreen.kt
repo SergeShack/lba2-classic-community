@@ -369,7 +369,7 @@ private enum class Pad(val label: String, val color: Color?) {
 private fun hintsFor(s: GameState): Pair<String, List<Pair<Pad, String>>> = when (s.modal) {
     G.MODAL_DIALOG -> "Dialogue" to listOf(Pad.ANY to "Next", Pad.START to "Skip")
     G.MODAL_HOLOMAP -> "Holomap" to listOfNotNull(Pad.STICK to "Turn", s.pad(SLOT_ACTION, "Zoom island"), s.pad(SLOT_HOLOMAP, "Close"))
-    G.MODAL_INVENTORY -> "Inventory" to listOfNotNull(Pad.STICK to "Choose", s.pad(SLOT_RETURN, "Use"), s.pad(SLOT_INVENTORY, "Close"))
+    G.MODAL_INVENTORY -> "Inventory" to listOfNotNull(Pad.STICK to "Choose", s.pad(SLOT_ACTION, "Use"), s.pad(SLOT_INVENTORY, "Close"))
     G.MODAL_BEHAVIOUR -> "Behaviour" to listOfNotNull(s.pad(SLOT_BEHAVIOUR, "Hold"), Pad.STICK to "Choose", s.pad(SLOT_BEHAVIOUR, "Release: pick"))
     G.MODAL_SLATE -> "Slate" to listOfNotNull(Pad.STICK to "Pages", s.pad(SLOT_MENUS, "Close"))
     G.MODAL_MENU, G.MODAL_SAVES -> "Menu" to listOfNotNull(Pad.STICK to "Choose", s.pad(SLOT_ACTION, "OK"), s.pad(SLOT_MENUS, "Back"))
